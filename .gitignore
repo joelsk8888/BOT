@@ -1,0 +1,27 @@
+# MetaEditor
+*.ex5
+
+# Logs
+*.log
+
+# Tester
+tester/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
+
+# Temp
+*.tmp
+
+# Cache
+.cache/
+
+# Compiled
+*.obj
