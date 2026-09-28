@@ -147,6 +147,29 @@ public:
 
 
       // ---------------------------------------------------------------
+      // The terminal may still be downloading/synchronizing history for
+      // this symbol+timeframe (freshly attached EA, terminal just
+      // started, symbol never charted before, ...). Reading iBars()/
+      // iTime() before synchronization finishes can return a partial or
+      // stale series, which would look like "not enough bars" or, worse,
+      // a misleadingly small-but-non-zero bar count. Wait for the
+      // terminal to confirm the series is synchronized before trusting it.
+      // ---------------------------------------------------------------
+
+      if(!SeriesInfoInteger(m_symbol, m_timeframe, SERIES_SYNCHRONIZED))
+        {
+         Print(
+            "SWING DETECTOR | waiting for series synchronization | symbol=",
+            m_symbol,
+            " | timeframe=",
+            EnumToString(m_timeframe)
+         );
+
+         return false;
+        }
+
+
+      // ---------------------------------------------------------------
       // Cheap gate: skip all work while the current bar is still
       // forming. We only ever evaluate closed bars, so nothing can
       // change structurally until a new bar opens.
